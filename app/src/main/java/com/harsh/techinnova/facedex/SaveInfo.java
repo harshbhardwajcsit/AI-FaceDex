@@ -10,9 +10,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.apache.http.entity.StringEntity;
+import org.json.JSONObject;
+
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -53,9 +56,6 @@ public class SaveInfo extends Activity implements View.OnClickListener {
         saveimage.setImageBitmap(bitmap);
 
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client2 = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
 
 
@@ -78,20 +78,28 @@ public class SaveInfo extends Activity implements View.OnClickListener {
                 try {
                     /************** For getting response from HTTP URL start ***************/
                     URL object = new URL("https://api.kairos.com/enroll");
+                    JSONObject json=new JSONObject();
+                    json.put("image",bitmap);
+                    json.put("subject_id",bio);
 
-                    HttpURLConnection connection = (HttpURLConnection) object
-                            .openConnection();
+                    HttpURLConnection connection = (HttpURLConnection) object.openConnection();
                     // int timeOut = connection.getReadTimeout();
                     connection.setReadTimeout(60 * 1000);
                     connection.setConnectTimeout(60 * 1000);
                     String authHeader = getAuthHeader(appId,appKey);
                     connection.setRequestMethod("POST");
                     connection.setDoInput(true);
+                    StringEntity params = new StringEntity(json.toString());
                     connection.setRequestProperty("Authorization", authHeader);
                     connection.addRequestProperty("Content-Type", "application/json");
+                    OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
+                    streamWriter.write(json.toString());
+                    streamWriter.flush();
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    Toast.makeText(getBaseContext(), "You are Done", Toast.LENGTH_LONG).show();
                     connection.connect();
-
-
+                    Toast.makeText(getBaseContext(), "You are not Done", Toast.LENGTH_LONG).show();
                     int responseCode = connection.getResponseCode();
                     String responseMsg = connection.getResponseMessage();
 
