@@ -29,6 +29,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.40" >
             <EditText
+                android:id="@+id/bio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
@@ -46,6 +47,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.40" >
             <Button
+                android:id="@+id/savebutton"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="Add detail"/>
