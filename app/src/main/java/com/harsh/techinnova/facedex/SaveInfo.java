@@ -31,7 +31,8 @@ public class SaveInfo extends Activity implements View.OnClickListener {
     private ImageView saveimage;
     Bitmap bitmap;
     EditText bio;
-    String string;
+    String string,string2="Gallery";
+
     protected String my_app_id;
     protected String my_api_key;
     protected String my_host;
@@ -82,7 +83,7 @@ public class SaveInfo extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.savebutton:
                 try {
-                    enroll(bitmap, string, null, null, null, null);
+                    enroll(bitmap, string,string2, null, null, null);
 
                 } catch (JSONException e){}
                 catch (Exception e){}
@@ -111,8 +112,8 @@ public class SaveInfo extends Activity implements View.OnClickListener {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                String responseString = new String(response);
-                Toast.makeText(getBaseContext(), responseString, Toast.LENGTH_LONG).show();
+                String responseString = new String(String.valueOf(headers));
+                Toast.makeText(getBaseContext(),responseString, Toast.LENGTH_LONG).show();
 
 
             }
