@@ -1,6 +1,7 @@
 package com.harsh.techinnova.facedex;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Base64;
@@ -10,12 +11,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -26,8 +31,21 @@ public class SaveInfo extends Activity implements View.OnClickListener {
     private ImageView saveimage;
     Bitmap bitmap;
     EditText bio;
-    String appId = "4e1fa2ad";
-    String appKey = "ebe99430089461bd18189b5613ac82cc";
+    String string;
+    protected String my_app_id;
+    protected String my_api_key;
+    protected String my_host;
+    protected Context my_context;
+
+
+    public void setAuthentication(Context ctx, String app_id, String api_key) {
+
+        my_context = ctx;
+        my_app_id = app_id;
+        my_api_key = api_key;
+        my_host = "http://api.kairos.com/";
+
+    }
 
 
 
@@ -43,6 +61,7 @@ public class SaveInfo extends Activity implements View.OnClickListener {
         //Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
         bitmap = getIntent().getParcelableExtra("BitmapImage");
         saveimage.setImageBitmap(bitmap);
+         string=bio.toString();
 
 
 
@@ -54,7 +73,6 @@ public class SaveInfo extends Activity implements View.OnClickListener {
 
 
 
-    private String getAuthHeader(String ID, String pass){ String encoded = Base64.encodeToString((ID + ":" + pass).getBytes(), Base64.NO_WRAP); String returnThis = "Basic " + encoded; return returnThis; }
 
 
 
@@ -63,86 +81,90 @@ public class SaveInfo extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.savebutton:
-
-                Toast.makeText(getBaseContext(), "1", Toast.LENGTH_LONG).show();
                 try {
-                    /************** For getting response from HTTP URL start ***************/
-                    URL object = new URL("https://api.kairos.com/enroll");
-                    JSONObject json=new JSONObject();
-                    json.put("image",bitmap);
-                    json.put("subject_id",bio);
-                    Toast.makeText(getBaseContext(), "2", Toast.LENGTH_LONG).show();
-                    //open connection
-                    HttpURLConnection connection = (HttpURLConnection) object.openConnection();
+                    enroll(bitmap, string, null, null, null, null);
 
-                    //set time fields
-                    connection.setReadTimeout(60 * 1000);
-                    connection.setConnectTimeout(60 * 1000);
-                    //String authHeader = getAuthHeader(appId,appKey);
-
-                    //set request type
-                    connection.setRequestMethod("GET");
-                    connection.setDoInput(true);
-                    StringEntity params = new StringEntity(json.toString());
-                    //set header
-                    Toast.makeText(getBaseContext(), "3", Toast.LENGTH_LONG).show();
-
-
-                    //set header
-                    connection.setRequestProperty("Content-Type", "application/json");
-                    connection.setRequestProperty("app_id",appId);
-                    connection.setRequestProperty("app_key",appKey);
-
-
-
-                    Toast.makeText(getBaseContext(), "4", Toast.LENGTH_LONG).show();
-
-                    //`5.1 Use Jackson object mapper to convert Contnet object into JSON
-                   /*
-                    System.out.println("status: " + response.getStatus());
-                    System.out.println("headers: " + response.getHeaders());
-                    System.out.println("body:" + response.readEntity(String.class));
-*/
-                    // 5.2 Get connection output stream
-                    DataOutputStream streamWriter = new DataOutputStream(connection.getOutputStream());
-
-                   // streamWriter.write(json);
-                    Toast.makeText(getBaseContext(), "You are Done", Toast.LENGTH_LONG).show();
-
-                    streamWriter.flush();
-
-                    // 5.5 close
-                    streamWriter.close();
-
-
-                    Toast.makeText(getBaseContext(), "You are not Done", Toast.LENGTH_LONG).show();
-                    int responseCode = connection.getResponseCode();
-                    String responseMsg = connection.getResponseMessage();
-
-
-
-
-
-
-
-
-
-
-
-                    if (responseCode == 200) {
-                        Toast.makeText(getBaseContext(), "You are Done", Toast.LENGTH_LONG).show();
-
-                    }
-                    else{Toast.makeText(getBaseContext(), "You are not Done", Toast.LENGTH_LONG).show();}
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                }
+                } catch (JSONException e){}
+                catch (Exception e){}
         }
     }
 
 
 
+
+    public void enroll(Bitmap image,
+                       String subjectId,
+                       String galleryId,
+                       String selector,
+                       String multipleFaces,
+                       String minHeadScale
+                       )  throws JSONException, UnsupportedEncodingException {
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        AsyncHttpResponseHandler responseHandler = new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                String responseString = new String(response);
+                Toast.makeText(getBaseContext(), responseString, Toast.LENGTH_LONG).show();
+
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+
+
+
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+
+        };
+
+        JSONObject jsonParams = new JSONObject();
+        jsonParams.put("image", base64FromBitmap(image));
+        jsonParams.put("subject_id", subjectId);
+        jsonParams.put("gallery_name", galleryId);
+
+        if(selector != null) {
+            jsonParams.put("selector", selector);
+        }
+
+        if(minHeadScale != null) {
+            jsonParams.put("minHeadScale", minHeadScale);
+        }
+
+        if(multipleFaces != null) {
+            jsonParams.put("multiple_faces", multipleFaces);
+        }
+
+        StringEntity entity = new StringEntity(jsonParams.toString());
+        client.addHeader("app_id","f76938b4");
+        client.addHeader("app_key","6c6ee7506b26175f3b4859aacbb84409");
+        client.post(my_context, "http://api.kairos.com/enroll", entity, "application/json", responseHandler);
+
+    }
+
+
+    protected String base64FromBitmap(Bitmap image){
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return encoded;
+    }
 
 
 
