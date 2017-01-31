@@ -113,12 +113,8 @@ public class SaveInfo extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 String responseString = new String(response);
-                try {
-                    JSONObject jj=new JSONObject(responseString);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
                 String responseCode=String.valueOf(statusCode);
                 String respnse=String.valueOf(response);
                 //String json = EntityUtils.toString(response.getEntity());
