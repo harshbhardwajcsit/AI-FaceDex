@@ -62,7 +62,7 @@ public class SaveInfo extends Activity implements View.OnClickListener {
         //Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
         bitmap = getIntent().getParcelableExtra("BitmapImage");
         saveimage.setImageBitmap(bitmap);
-         string=bio.toString();
+         string=bio.getText().toString();
 
 
 
@@ -112,10 +112,17 @@ public class SaveInfo extends Activity implements View.OnClickListener {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                String responseString = String.valueOf(headers);
+                String responseString = new String(response);
+                try {
+                    JSONObject jj=new JSONObject(responseString);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 String responseCode=String.valueOf(statusCode);
                 String respnse=String.valueOf(response);
                 //String json = EntityUtils.toString(response.getEntity());
+
                 Toast.makeText(getBaseContext(),responseString, Toast.LENGTH_LONG).show();
                 Toast.makeText(getBaseContext(),responseCode, Toast.LENGTH_LONG).show();
                 Toast.makeText(getBaseContext(),respnse, Toast.LENGTH_LONG).show();
