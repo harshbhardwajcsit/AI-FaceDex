@@ -86,7 +86,7 @@ public class SaveInfo extends Activity implements View.OnClickListener {
                     enroll(bitmap, string,string2, null, null, null);
 
                 } catch (JSONException e){}
-                catch (Exception e){}
+                  catch (Exception e){}
         }
     }
 
@@ -112,8 +112,13 @@ public class SaveInfo extends Activity implements View.OnClickListener {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                String responseString = new String(String.valueOf(headers));
+                String responseString = String.valueOf(headers);
+                String responseCode=String.valueOf(statusCode);
+                String respnse=String.valueOf(response);
+                //String json = EntityUtils.toString(response.getEntity());
                 Toast.makeText(getBaseContext(),responseString, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),responseCode, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),respnse, Toast.LENGTH_LONG).show();
 
 
             }
@@ -157,7 +162,7 @@ public class SaveInfo extends Activity implements View.OnClickListener {
 
     }
 
-
+//convert bitmap image to base64 image
     protected String base64FromBitmap(Bitmap image){
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
