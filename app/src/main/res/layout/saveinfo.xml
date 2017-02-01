@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center">
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.60" >
-        <ImageView
-            android:id="@+id/saveimage"
-            android:layout_height="match_parent"
-            android:src="@drawable/sample"
-            android:layout_width="match_parent">
+    android:layout_height="0dp"
+    android:layout_weight="0.60" >
+    <ImageView
+        android:id="@+id/saveimage"
+        android:layout_height="match_parent"
+        android:src="@drawable/sample"
+        android:layout_width="match_parent">
 
-        </ImageView>
+    </ImageView>
 
-    </LinearLayout>
+</LinearLayout>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.40" >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.40" >
-        <LinearLayout
-            android:orientation="vertical"
+        <EditText
+            android:id="@+id/bio"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.40" >
-            <EditText
-                android:id="@+id/bio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.20" >
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.40" >
-            <Button
-                android:id="@+id/savebutton"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Add detail"/>
-
-        </LinearLayout>
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.20" >
 
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.40" >
+        <Button
+            android:id="@+id/savebutton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Add detail"/>
+
+    </LinearLayout>
+
+</LinearLayout>
 
 </LinearLayout>

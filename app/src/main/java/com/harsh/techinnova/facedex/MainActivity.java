@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     private static final int CAMERA_REQUEST = 1888;
+    private static final int CAMERA_REQUEST1 =1888;
     private ImageView imageView;
     static Bitmap photo;
     static Bitmap photo1;
@@ -34,15 +35,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             case R.id.button2:
-                Intent cameraIntent2 = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent2, CAMERA_REQUEST);
+                Intent intent1=new Intent(MainActivity.this,Check.class);
+                startActivity(intent1);
         }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             photo = (Bitmap) data.getExtras().get("data");
-            photo1 = (Bitmap) data.getExtras().get("data");
+            //photo1 = (Bitmap) data.getExtras().get("data");
             Intent intent = new Intent(MainActivity.this, SaveInfo.class);
             intent.putExtra("BitmapImage", photo);
 
@@ -50,4 +51,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         }
     }
-}
+
+
+    }
+
