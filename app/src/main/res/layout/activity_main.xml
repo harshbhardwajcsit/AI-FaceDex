@@ -52,13 +52,67 @@
         android:layout_height="0dp"
         android:layout_weight="0.80">
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_height="wrap_content"
-            android:src="@drawable/sample"
-            android:layout_width="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.80">
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sample"
+                android:layout_width="wrap_content">
 
-        </ImageView>
+            </ImageView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.10">
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.50"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="All folders">
+
+                </Button>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.50"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/friends"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Added Pics">
+
+                </Button>
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>
